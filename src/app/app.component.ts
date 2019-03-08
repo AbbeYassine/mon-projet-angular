@@ -11,7 +11,6 @@ export class AppComponent {
 
   isAuth: boolean = false;
 
-  appareil: Appareil = new Appareil();
 
 
   appareilOne: string = 'Iphone';
@@ -44,10 +43,6 @@ export class AppComponent {
         status: true
       }
     ];
-  }
-
-  onSubmit() {
-    console.log(this.appareil);
   }
 
   onAllumer() {
