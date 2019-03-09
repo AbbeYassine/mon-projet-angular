@@ -7,7 +7,8 @@
 
       <ul class="list-group">
         <app-appareil *ngFor="let appareil of appareils"
-                      [appareilName]="appareil.name" [appareilStatus]="appareil.status"></app-appareil>
+                      [appareilName]="appareil.name" [appareilStatus]="appareil.status"
+                      [id]="appareil.id"></app-appareil>
       </ul>
 
       <button class="btn" [ngClass]="{'btn-success' : switch , 'btn-danger' : !switch}" [disabled]="!isAuth"

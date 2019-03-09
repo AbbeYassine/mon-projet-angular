@@ -9,14 +9,17 @@ export class AppareilService {
   constructor() {
     this.appareils = [
       {
+        id: 1,
         name: 'Iphone',
         status: true
       },
       {
+        id: 2,
         name: 'Ordinateur',
         status: false
       },
       {
+        id: 3,
         name: 'Frigo',
         status: true
       }
@@ -27,5 +30,13 @@ export class AppareilService {
     for (const appareil of  this.appareils) {
       appareil.status = status;
     }
+  }
+
+  switchById(status: boolean, appareilId: number) {
+    this.appareils.find(
+      (appareil) => {
+        return appareil.id === appareilId;
+      }
+    ).status = status;
   }
 }
