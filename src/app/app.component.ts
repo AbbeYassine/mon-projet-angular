@@ -1,5 +1,6 @@
 import { Appreil } from './appreil';
 import { Component } from '@angular/core';
+import { AppareilService } from './services/appareil.service';
 
 @Component({
   selector: 'app-root',
@@ -7,36 +8,31 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+
+  //déclaration des variables//
+
   title = 'mon-projet-angular';
   isAuth: boolean = false;
-
   lastUpdate : Date = new Date();
-
   appareils : Appreil[] = [];
-  constructor(){
+  btnmsg : string = "tout Allumer";
+
+  //fin déclaration**********//
+
+constructor(private appareilservice : AppareilService){
     setTimeout(() => {
       this.isAuth = true;
     }, 4000);
-    this.appareils = [
-      {
-        name: 'Iphone 5',
-        status: true
-      },
-      {
-        name: 'Ordinateur',
-        status: false
-      },
-      {
-        name: 'Frigo',
-        status: true
-      }
-    ];
+    
+  this.appareils = this.appareilservice.appareils;
+  
+}
+onSwitch(){
+  this.appareilservice.onSwitch();
+  this.appareilservice.switch = !this.appareilservice.switch;
+  this.btnmsg = this.appareilservice.btnmsg;
+  console.log(this.isAuth)
+}
 
-    }
-  
-  onAllumer(){
-    console.log(this.isAuth)
-  }
-  
 }
 
