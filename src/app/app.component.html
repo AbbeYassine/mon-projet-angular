@@ -10,7 +10,12 @@
                       [appareilName]="appareil.name" [appareilStatus]="appareil.status"></app-appareil>
       </ul>
 
-      <button class="btn btn-success" [disabled]="!isAuth" (click)="onAllumer()">Tout allumer</button>
+      <button class="btn" [ngClass]="{'btn-success' : switch , 'btn-danger' : !switch}" [disabled]="!isAuth"
+              (click)="onSwitch()">
+        {{ switch ? 'Tout\n' +
+        '        allumer' : 'Tout etteindre' }}
+
+      </button>
     </div>
   </div>
 </div>

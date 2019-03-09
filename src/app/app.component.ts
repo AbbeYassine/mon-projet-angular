@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Appareil} from './appareil';
+import {AppareilService} from './services/appareil.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ export class AppComponent {
 
   isAuth: boolean = false;
 
+  switch: boolean = true;
 
 
   appareilOne: string = 'Iphone';
@@ -21,32 +23,19 @@ export class AppComponent {
 
   appareils: Appareil[] = [];
 
-  constructor() {
+  constructor(private appareilService: AppareilService) {
     setTimeout(
       () => {
         this.isAuth = true;
       },
       4000
     );
-
-    this.appareils = [
-      {
-        name: 'Iphone',
-        status: true
-      },
-      {
-        name: 'Ordinateur',
-        status: false
-      },
-      {
-        name: 'Frigo',
-        status: true
-      }
-    ];
+    this.appareils = this.appareilService.appareils;
   }
 
-  onAllumer() {
-    console.log('On allume tout !');
+  onSwitch() {
+    this.switch = !this.switch;
+    this.appareilService.onSwitch(this.switch);
   }
 
 
