@@ -10,12 +10,15 @@ import {AppareilViewComponent} from './appareil-view/appareil-view.component';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthComponent} from './auth/auth.component';
 import {AuthService} from './services/auth.service';
-import { AppareilDetailComponent } from './appareil-detail/appareil-detail.component';
+import {AppareilDetailComponent} from './appareil-detail/appareil-detail.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {AuthGuard} from './auth.guard';
 
 const appRoutes: Routes = [
   {
     path: 'appareils',
-    component: AppareilViewComponent
+    component: AppareilViewComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'auth',
@@ -27,7 +30,16 @@ const appRoutes: Routes = [
   },
   {
     path: 'appareil/:appareilId',
-    component: AppareilDetailComponent
+    component: AppareilDetailComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'not-found',
+    component: PageNotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
   }
 ];
 
@@ -39,7 +51,8 @@ const appRoutes: Routes = [
     AppareilComponent,
     AppareilViewComponent,
     AuthComponent,
-    AppareilDetailComponent
+    AppareilDetailComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
