@@ -33,10 +33,14 @@ export class AppareilService {
   }
 
   switchById(status: boolean, appareilId: number) {
-    this.appareils.find(
+    this.getAppareilById(appareilId).status = status;
+  }
+
+  getAppareilById(appareilId: number) {
+    return this.appareils.find(
       (appareil) => {
         return appareil.id === appareilId;
       }
-    ).status = status;
+    );
   }
 }
