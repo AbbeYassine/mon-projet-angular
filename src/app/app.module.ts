@@ -13,6 +13,7 @@ import {AuthService} from './services/auth.service';
 import {AppareilDetailComponent} from './appareil-detail/appareil-detail.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AuthGuard} from './auth.guard';
+import {AppareilFormComponent} from './appareil-form/appareil-form.component';
 
 const appRoutes: Routes = [
   {
@@ -26,7 +27,13 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    component: AppareilViewComponent
+    component: AppareilViewComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'appareil/add',
+    component: AppareilFormComponent,
+    canDeactivate: [AuthGuard]
   },
   {
     path: 'appareil/:appareilId',
@@ -52,7 +59,8 @@ const appRoutes: Routes = [
     AppareilViewComponent,
     AuthComponent,
     AppareilDetailComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AppareilFormComponent
   ],
   imports: [
     BrowserModule,

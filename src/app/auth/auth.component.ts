@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
+import {interval} from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -18,9 +19,24 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    const observable = interval(500);
+
+    observable.subscribe(
+      (value) => {
+        console.log(value);
+      },
+      (error) => {
+        console.log('Error');
+      },
+      () => {
+        console.log('Completed');
+      }
+    );
   }
 
   onSignIn() {
+    let i = 2;
     this.authService.signIn()
       .then(
         () => {
@@ -29,6 +45,7 @@ export class AuthComponent implements OnInit {
           this.router.navigate(['appareils']);
         }
       );
+    console.log(i);
   }
 
   onSignOut() {
