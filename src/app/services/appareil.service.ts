@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Appareil} from '../appareil';
 import {HttpClient} from '@angular/common/http';
+import {Config} from '../config';
 
 @Injectable()
 export class AppareilService {
@@ -13,12 +14,12 @@ export class AppareilService {
 
   getAllAppareils() {
     return this.httpClient
-      .get('http://localhost:3000/api/appareils');
+      .get(Config.baseUrl + '/appareils');
   }
 
   addAppareil(appareil: Appareil) {
     return this.httpClient
-      .post('http://localhost:3000/api/appareils', appareil);
+      .post(Config.baseUrl + '/appareils', appareil);
   }
 
   onSwitch(status: boolean) {
