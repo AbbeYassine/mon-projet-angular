@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Appareil} from '../appareil';
+import {AppareilService} from '../services/appareil.service';
 
 @Component({
   selector: 'app-appareil-form',
@@ -10,7 +11,7 @@ export class AppareilFormComponent implements OnInit {
 
   appareil: Appareil;
 
-  constructor() {
+  constructor(private appareilService: AppareilService) {
     this.appareil = new Appareil();
   }
 
@@ -19,6 +20,17 @@ export class AppareilFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.appareil);
+
+    this.appareilService.addAppareil(this.appareil)
+      .subscribe(
+        (data) => {
+          console.log(data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
   }
 
 }

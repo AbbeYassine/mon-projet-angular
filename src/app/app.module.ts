@@ -14,6 +14,7 @@ import {AppareilDetailComponent} from './appareil-detail/appareil-detail.compone
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AuthGuard} from './auth.guard';
 import {AppareilFormComponent} from './appareil-form/appareil-form.component';
+import { HttpClientModule} from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],

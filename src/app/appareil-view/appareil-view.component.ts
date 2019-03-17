@@ -19,7 +19,7 @@ export class AppareilViewComponent implements OnInit {
 
 
   constructor(private appareilService: AppareilService) {
-    this.appareils = this.appareilService.appareils;
+    // this.appareils = this.appareilService.appareils;
 
     setTimeout(
       () => {
@@ -30,6 +30,17 @@ export class AppareilViewComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.appareilService.getAllAppareils()
+      .subscribe(
+        (data: Appareil[]) => {
+          this.appareils = data;
+          this.appareilService.appareils = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   onSwitch() {

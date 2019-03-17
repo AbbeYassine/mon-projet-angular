@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class AuthService {
 
-  isAuth = false;
+  isAuth = true;
 
   signIn() {
     return new Promise(
