@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AppareilService } from './../services/appareil.service';
 import { Appreil } from './../appreil';
+import { AuthService } from './../services/auth.service';
+import { StorageService } from './../services/storage.service';
+import { User } from './../user';
 
 @Component({
   selector: 'app-appareil-view',
@@ -15,10 +18,11 @@ export class AppareilViewComponent implements OnInit {
   lastUpdate : Date = new Date();
   appareils : Appreil[] = [];
   btnmsg : string = "tout Allumer";
-
+  user : User;
   //fin déclaration**********//
 
-  constructor(private appareilservice : AppareilService) {
+  constructor(private appareilservice : AppareilService,
+              private storageService : StorageService) {
     setTimeout(() => {
       this.isAuth = true;
     }, 4000);
@@ -39,6 +43,9 @@ export class AppareilViewComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.user = new User() 
+    this.user = this.storageService.read<User>('user')
+  console.log(this.user)
   }
   onSwitch(){
     this.appareilservice.onSwitch();

@@ -16,6 +16,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGuard } from './auth.guard';
 import { AppareilFormComponent } from './appareil-form/appareil-form.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { StorageService } from './services/storage.service';
 
 //Routes
 const appRoutes : Routes = [
@@ -78,7 +79,8 @@ const appRoutes : Routes = [
   ],
   providers: [
     AppareilService,
-    AuthService
+    AuthService,
+    StorageService
   ],
   bootstrap: [AppComponent]
 })

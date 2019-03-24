@@ -48,6 +48,9 @@ switchById(status: boolean, appareilId: string) {
     
     return this.httpClient.get(Config.BaseUrl + 'appareils/' + id )
   }
+  deleteAppareilById(id : string){
+    return this.httpClient.get(Config.BaseUrl + 'appareils/delete/' + id )
+  }
   getAllAppareils(){
 
     return this.httpClient.get(Config.BaseUrl + 'appareils');  

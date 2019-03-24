@@ -3,6 +3,7 @@ import { AuthService } from './../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { interval } from 'rxjs';
 import { User } from './../user';
+import { StorageService } from './../services/storage.service';
 declare var swal: any;
 
 @Component({
@@ -15,11 +16,11 @@ export class AuthComponent implements OnInit {
   authStatus : boolean;
 user : User;
   constructor(private authService : AuthService,
-              private router: Router) { 
-
-                this.authStatus= this.authService.isAuth;
-
-              }
+              private router: Router,
+              private storageService : StorageService) { 
+              // this.authStatus = this.storageServicel=='true' ? true : false
+              this.authStatus = this.storageService.isExist('user') 
+                         }
 
   ngOnInit() {
     this.user = new User();
@@ -39,6 +40,8 @@ onSignIn(){
           ()=>{ 
             this.authService.isAuth = true ;
             this.authStatus = this.authService.isAuth ;
+            // localStorage.setItem('auth','true')
+            this.storageService.write('user',this.user)
             //alert(this.authStatus);
             baseContext.router.navigate(['/appareils']);
           }
@@ -74,6 +77,8 @@ onSignUp(){
           ()=>{ 
             this.authService.isAuth = true ;
             this.authStatus = this.authService.isAuth ;
+            //localStorage.setItem('auth','true')
+            this.storageService.write('user',this.user)
             //alert(this.authStatus);
             baseContext.router.navigate(['/appareils']);
           }

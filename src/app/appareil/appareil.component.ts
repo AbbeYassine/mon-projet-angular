@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AppareilService } from './../services/appareil.service';
+declare var swal: any;
 
 @Component({
   selector: 'app-appareil',
@@ -32,7 +33,26 @@ id : string;
     }
   }
   delete(){
-    
+    this.appareilservice.deleteAppareilById(this.id)
+    .subscribe(
+      (data) => {
+        console.log(data)
+        swal({
+          type : 'success',
+          title: 'Success', 
+          text :'appareil deleted avec succées',
+        })
+        .then(
+          ()=>{
+            let index = this.appareilservice.appareils.map(
+              item=> {
+                        return item._id
+               }).indexOf(this.id);
+               this.appareilservice.appareils.splice(index,1)
+          }
+        )
+      }
+    )
   }
   onSwitch() {
     this.appareilservice.switchById(!this.AppareilStatus, this.id) 

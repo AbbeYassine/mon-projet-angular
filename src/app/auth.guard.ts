@@ -3,6 +3,8 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/r
 import { Observable } from 'rxjs';
 import { CanActivate } from '@angular/router/src/utils/preactivation';
 import { AuthService } from './services/auth.service';
+import { StorageService } from './services/storage.service';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +12,16 @@ import { AuthService } from './services/auth.service';
 export class AuthGuard implements CanActivate {
   path: ActivatedRouteSnapshot[];
   route: ActivatedRouteSnapshot;
-  constructor(private authservice : AuthService){
+  constructor(private authservice : AuthService,
+              private storageService : StorageService){
 
   }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if(this.authservice.isAuth){
-      return true;
+    if(this.storageService.isExist('user')){
+     return true;
   }
 }
 }
