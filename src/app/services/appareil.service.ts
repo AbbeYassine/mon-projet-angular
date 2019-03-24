@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Appreil } from './../appreil';
-
+import {HttpClient} from '@angular/common/http';
+import { Config } from '../config';
+import { User } from './../user';
 
 @Injectable()
 export class AppareilService {
@@ -10,21 +12,8 @@ export class AppareilService {
     switch : boolean = false;
     // fin declaration//
 
-    constructor(){
-    this.appareils = [
-        {
-          name: 'Iphone 5',
-          status: true
-        },
-        {
-          name: 'Ordinateur',
-          status: false
-        },
-        {
-          name: 'Frigo',
-          status: true
-        }
-      ];
+    constructor(private httpClient : HttpClient){
+   
 }
 onAllumer(){
     for(const appreil of this.appareils){
@@ -47,4 +36,28 @@ onSwitch(){
     }
     
 }
+
+switchById(status: boolean, appareilId: string) {
+    this.appareils.find(
+      (appareil) => {
+        return appareil._id === appareilId;
+      }
+    ).status = status;
+  }
+  getAppareilById(id : string){
+    
+    return this.httpClient.get(Config.BaseUrl + 'appareils/' + id )
+  }
+  getAllAppareils(){
+
+    return this.httpClient.get(Config.BaseUrl + 'appareils');  
+  
+  }
+  addAppareil(appareil : Appreil){
+    return this.httpClient.post(Config.BaseUrl + 'appareils',appareil);
+  }
+  updateAppareil(appareil : Appreil){
+    return this.httpClient.put(Config.BaseUrl + 'appareils/'+ appareil._id,appareil);
+  }
+  
 }

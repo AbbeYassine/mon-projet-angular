@@ -1,0 +1,8 @@
+
+<div class="row bg-danger" style="color : red ;">
+    <h4> Appareil : {{appareil.name}}  --- Status : {{appareil.status ? 'Allumé' : 'éteint'}}</h4>
+    <a routerLink="/appareils">
+        Retour à la liste
+    </a>
+</div>
+<button class="btn btn-primary" [routerLink]="['/appareil/edit/'+id]">Edit</button>

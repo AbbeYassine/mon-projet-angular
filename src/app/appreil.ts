@@ -1,4 +1,5 @@
 export class Appreil {
+    _id : string;
     name: string;
-    status: boolean;
+    status: any;
 }
