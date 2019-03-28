@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AppareilService } from './../services/appareil.service';
-import { Route } from '@angular/compiler/src/core';
-import { ActivatedRoute } from '@angular/router';
-import { Appreil } from './../appreil';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Appareil} from '../appareil';
+import {AppareilService} from '../services/appareil.service';
 
 @Component({
   selector: 'app-appareil-detail',
@@ -10,22 +9,23 @@ import { Appreil } from './../appreil';
   styleUrls: ['./appareil-detail.component.scss']
 })
 export class AppareilDetailComponent implements OnInit {
-appareil: Appreil;
-id : string;
-  constructor(private appreilservice : AppareilService,
-              private route: ActivatedRoute) { 
-                
-  this.appareil = new Appreil();
-  this.appareil._id= this.route.snapshot.params['id'];
-  this.id=this.appareil._id
-              }
+  appareil: Appareil;
+  id: string;
+
+  constructor(private appreilservice: AppareilService,
+              private route: ActivatedRoute) {
+
+    this.appareil = new Appareil();
+    this.appareil._id = this.route.snapshot.params['id'];
+    this.id = this.appareil._id;
+  }
 
   ngOnInit() {
-     this.appreilservice.getAppareilById(this.appareil._id)
-    .subscribe(
-      (data : Appreil) => {
-        this.appareil = data;
-      }); 
+    this.appreilservice.getAppareilById(this.appareil._id)
+      .subscribe(
+        (data: Appareil) => {
+          this.appareil = data;
+        });
   }
 
 }

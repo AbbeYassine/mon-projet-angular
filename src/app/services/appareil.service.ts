@@ -1,66 +1,75 @@
-import { Injectable } from '@angular/core';
-import { Appreil } from './../appreil';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { Config } from '../config';
-import { User } from './../user';
+import {Config} from '../config';
+import {Appareil} from '../appareil';
 
 @Injectable()
 export class AppareilService {
 
-    //déclaration des variables//
-    appareils : Appreil[];
-    switch : boolean = false;
-    // fin declaration//
+  //déclaration des variables//
+  appareils: Appareil[];
+  switch: boolean = false;
 
-    constructor(private httpClient : HttpClient){
-   
-}
-onAllumer(){
-    for(const appreil of this.appareils){
-        appreil.status = true;
-    }
-}
-onEteindre(){
-    for(const appreil of this.appareils){
-        appreil.status = false;
-    }
-}
-btnmsg = "tout Allumer";
-onSwitch(){
-    if(this.switch){
-        this.onAllumer();
-        this.btnmsg = "tout Eteindre";
-    }else{
-        this.onEteindre();
-        this.btnmsg = "tout Allumer";
-    }
-    
-}
+  // fin declaration//
 
-switchById(status: boolean, appareilId: string) {
+  constructor(private httpClient: HttpClient) {
+
+  }
+
+  onAllumer() {
+    for (const appreil of this.appareils) {
+      appreil.status = true;
+    }
+  }
+
+  onEteindre() {
+    for (const appreil of this.appareils) {
+      appreil.status = false;
+    }
+  }
+
+  btnmsg = 'tout Allumer';
+
+  onSwitch() {
+    if (this.switch) {
+      this.onAllumer();
+      this.btnmsg = 'tout Eteindre';
+    } else {
+      this.onEteindre();
+      this.btnmsg = 'tout Allumer';
+    }
+
+  }
+
+  switchById(status: boolean, appareilId: string) {
     this.appareils.find(
       (appareil) => {
         return appareil._id === appareilId;
       }
     ).status = status;
   }
-  getAppareilById(id : string){
-    
-    return this.httpClient.get(Config.BaseUrl + 'appareils/' + id )
-  }
-  deleteAppareilById(id : string){
-    return this.httpClient.delete(Config.BaseUrl + 'appareils/delete/' + id )
-  }
-  getAllAppareils(){
 
-    return this.httpClient.get(Config.BaseUrl + 'appareils');  
-  
+  getAppareilById(id: string) {
+
+    return this.httpClient.get(Config.BaseUrl + 'appareils/' + id);
   }
-  addAppareil(appareil : Appreil){
-    return this.httpClient.post(Config.BaseUrl + 'appareils',appareil);
+
+  deleteAppareilById(id: string) {
+    return this.httpClient.delete(Config.BaseUrl + 'appareils/' + id);
   }
-  updateAppareil(appareil : Appreil){
-    return this.httpClient.put(Config.BaseUrl + 'appareils/'+ appareil._id,appareil);
+
+  getAllAppareils() {
+
+    return this.httpClient.get(Config.BaseUrl + 'appareils');
+
   }
-  
+
+  addAppareil(appareil: Appareil) {
+    return this.httpClient.post(Config.BaseUrl + 'appareils', appareil);
+  }
+
+  updateAppareil(appareil: Appareil) {
+    return this.httpClient.put(Config.BaseUrl + 'appareils/' + appareil._id, appareil);
+  }
+
 }
