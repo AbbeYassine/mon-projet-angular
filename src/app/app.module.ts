@@ -1,10 +1,11 @@
+import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+
 
 import {AppComponent} from './app.component';
 import {MonPremierComponent} from './mon-premier/mon-premier.component';
 import {AppareilComponent} from './appareil/appareil.component';
-import {FormsModule} from '@angular/forms';
 import {AppareilService} from './services/appareil.service';
 import {AppareilViewComponent} from './appareil-view/appareil-view.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -15,19 +16,16 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AuthGuard} from './auth.guard';
 import {AppareilFormComponent} from './appareil-form/appareil-form.component';
 import {HttpClientModule} from '@angular/common/http';
+import {StorageService} from './services/storage.service';
 
+//Routes
 const appRoutes: Routes = [
-  {
-    path: 'appareils',
-    component: AppareilViewComponent,
-    canActivate: [AuthGuard]
-  },
   {
     path: 'auth',
     component: AuthComponent
   },
   {
-    path: '',
+    path: 'appareils',
     component: AppareilViewComponent,
     canActivate: [AuthGuard]
   },
@@ -37,9 +35,20 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'appareil/:appareilId',
+    path: 'appareil/edit/:id',
+    component: AppareilFormComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '',
+    component: AppareilViewComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'appareil/:id',
     component: AppareilDetailComponent,
     canActivate: [AuthGuard]
+
   },
   {
     path: 'not-found',
@@ -51,7 +60,6 @@ const appRoutes: Routes = [
   }
 ];
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,17 +69,18 @@ const appRoutes: Routes = [
     AuthComponent,
     AppareilDetailComponent,
     PageNotFoundComponent,
-    AppareilFormComponent
+    AppareilFormComponent,
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
     AppareilService,
-    AuthService
+    AuthService,
+    StorageService
   ],
   bootstrap: [AppComponent]
 })

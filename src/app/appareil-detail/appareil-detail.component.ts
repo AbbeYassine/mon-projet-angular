@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {AppareilService} from '../services/appareil.service';
 import {ActivatedRoute} from '@angular/router';
 import {Appareil} from '../appareil';
+import {AppareilService} from '../services/appareil.service';
 
 @Component({
   selector: 'app-appareil-detail',
@@ -9,20 +9,23 @@ import {Appareil} from '../appareil';
   styleUrls: ['./appareil-detail.component.scss']
 })
 export class AppareilDetailComponent implements OnInit {
-
-
   appareil: Appareil;
+  id: string;
 
-  constructor(private appareilService: AppareilService,
+  constructor(private appreilservice: AppareilService,
               private route: ActivatedRoute) {
 
     this.appareil = new Appareil();
-    this.appareil.id = parseInt(this.route.snapshot.params['appareilId'], 0);
+    this.appareil._id = this.route.snapshot.params['id'];
+    this.id = this.appareil._id;
   }
 
   ngOnInit() {
-    this.appareil = this.appareilService
-      .getAppareilById(this.appareil.id);
+    this.appreilservice.getAppareilById(this.appareil._id)
+      .subscribe(
+        (data: Appareil) => {
+          this.appareil = data;
+        });
   }
 
 }

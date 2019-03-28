@@ -1,42 +1,73 @@
 import {Injectable} from '@angular/core';
-import {Appareil} from '../appareil';
 import {HttpClient} from '@angular/common/http';
 import {Config} from '../config';
+import {Appareil} from '../appareil';
 
 @Injectable()
 export class AppareilService {
 
+  //déclaration des variables//
   appareils: Appareil[];
+  switch: boolean = false;
+
 
   constructor(private httpClient: HttpClient) {
 
   }
 
-  getAllAppareils() {
-    return this.httpClient
-      .get(Config.baseUrl + '/appareils');
-  }
-
-  addAppareil(appareil: Appareil) {
-    return this.httpClient
-      .post(Config.baseUrl + '/appareils', appareil);
-  }
-
-  onSwitch(status: boolean) {
-    for (const appareil of  this.appareils) {
-      appareil.status = status;
+  onAllumer() {
+    for (const appreil of this.appareils) {
+      appreil.status = true;
     }
   }
 
-  switchById(status: boolean, appareilId: number) {
-    this.getAppareilById(appareilId).status = status;
+  onEteindre() {
+    for (const appreil of this.appareils) {
+      appreil.status = false;
+    }
   }
 
-  getAppareilById(appareilId: number) {
-    return this.appareils.find(
+  btnmsg = 'tout Allumer';
+
+  onSwitch() {
+    if (this.switch) {
+      this.onAllumer();
+      this.btnmsg = 'tout Eteindre';
+    } else {
+      this.onEteindre();
+      this.btnmsg = 'tout Allumer';
+    }
+
+  }
+
+  switchById(status: boolean, appareilId: string) {
+    this.appareils.find(
       (appareil) => {
-        return appareil.id === appareilId;
+        return appareil._id === appareilId;
       }
-    );
+    ).status = status;
+  }
+
+  getAppareilById(id: string) {
+
+    return this.httpClient.get(Config.BaseUrl + 'appareils/' + id);
+  }
+
+  deleteAppareilById(id: string) {
+    return this.httpClient.delete(Config.BaseUrl + 'appareils/' + id);
+  }
+
+  getAllAppareils() {
+
+    return this.httpClient.get(Config.BaseUrl + 'appareils');
+
+  }
+
+  addAppareil(appareil: Appareil) {
+    return this.httpClient.post(Config.BaseUrl + 'appareils', appareil);
+  }
+
+  updateAppareil(appareil: Appareil) {
+    return this.httpClient.put(Config.BaseUrl + 'appareils/' + appareil._id, appareil);
   }
 }

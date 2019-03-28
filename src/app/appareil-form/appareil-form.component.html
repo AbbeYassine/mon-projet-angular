@@ -1,32 +1,35 @@
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2">
     <form #f="ngForm" (ngSubmit)="onSubmit()">
-      <div class="form-group {{appareilName.errors && (appareilName.dirty || appareilName.touched) ? 'has-error' :''}}">
+      <div class="form-group {{(appareilName.errors && appareilName.touched) ? 'has-error' : ''}}">
         <label for="name">
           Nom de l'appareil
         </label>
-        <input type="text" id="name" class="form-control"
-               [(ngModel)]="appareil.name" #appareilName="ngModel" name="appareilName" required>
-        <label *ngIf="appareilName.errors && (appareilName.dirty || appareilName.touched)"
-               class="validation-error-label">Ce champs
-          est
-          obligatoire.</label>
+        <input type="text"
+               [(ngModel)]="appreil.name"
+               name="appreilName"
+               id="name"
+               #appareilName="ngModel"
+               class="form-control"
+               required>
+
+        <label *ngIf="appareilName.errors && appareilName.touched" class="text-danger">
+          Ce champ est obligatoire
+        </label>
       </div>
-      <div
-        class="form-group {{appareilStatus.errors && (appareilStatus.dirty || appareilStatus.touched) ? 'has-error' :''}}">
+
+      <div class="form-group {{(appareilStatus.errors && appareilStatus.touched) ? 'has-error' : ''}}">
         <label for="status">
           État de l'appareil
         </label>
-        <select id="status" class="form-control"
-                #appareilStatus="ngModel" [(ngModel)]="appareil.status" name="appareilStatus" required>
+        <select id="status" #appareilStatus="ngModel" [(ngModel)]="appreil.status" name="appreilStatus"
+                class="form-control" required>
           <option value="1">Allumé</option>
           <option value="0">Éteint</option>
         </select>
-
-        <label *ngIf="appareilStatus.errors && (appareilStatus.dirty || appareilStatus.touched)"
-               class="validation-error-label">Ce champs
-          est
-          obligatoire.</label>
+        <label *ngIf="appareilStatus.errors && appareilStatus.touched" class="text-danger">
+          Ce champ est obligatoire
+        </label>
       </div>
       <button class="btn btn-primary" [disabled]="f.invalid">Enregistrer</button>
     </form>

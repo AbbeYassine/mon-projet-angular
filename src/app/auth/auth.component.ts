@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
-import {interval} from 'rxjs';
+import {User} from '../user';
+import {AuthService} from '../services/auth.service';
+import {StorageService} from '../services/storage.service';
+
+declare var swal: any;
 
 @Component({
   selector: 'app-auth',
@@ -11,41 +14,50 @@ import {interval} from 'rxjs';
 export class AuthComponent implements OnInit {
 
   authStatus: boolean;
+  user: User;
 
   constructor(private authService: AuthService,
-              private router: Router) {
-
-    this.authStatus = this.authService.isAuth;
+              private router: Router,
+              private storageService: StorageService) {
+    // this.authStatus = this.storageServicel=='true' ? true : false
+    this.authStatus = this.storageService.isExist('user');
   }
 
   ngOnInit() {
-
-    const observable = interval(500);
-
-    observable.subscribe(
-      (value) => {
-        console.log(value);
-      },
-      (error) => {
-        console.log('Error');
-      },
-      () => {
-        console.log('Completed');
-      }
-    );
+    this.user = new User();
   }
 
   onSignIn() {
-    let i = 2;
-    this.authService.signIn()
-      .then(
-        () => {
-          this.authStatus = this.authService.isAuth;
-          console.log('Sign in successuful');
-          this.router.navigate(['appareils']);
+    let baseContext = this;
+    this.authService.signIn(this.user)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          swal({
+              type: 'success',
+              title: 'Success',
+              text: 'user login avec succées',
+            }
+          ).then(
+            () => {
+              this.authService.isAuth = true;
+              this.authStatus = this.authService.isAuth;
+              // localStorage.setItem('auth','true')
+              this.storageService.write('user', this.user);
+              //alert(this.authStatus);
+              baseContext.router.navigate(['/appareils']);
+            }
+          );
+        },
+        (error) => {
+          console.log(error);
+          swal({
+            type: 'error',
+            title: 'error',
+            text: 'try again !!'
+          });
         }
       );
-    console.log(i);
   }
 
   onSignOut() {
@@ -53,4 +65,36 @@ export class AuthComponent implements OnInit {
     this.authStatus = this.authService.isAuth;
   }
 
+  onSignUp() {
+    let baseContext = this;
+    console.log(this.user);
+    this.authService.addUser(this.user).subscribe(
+      (data) => {
+        console.log(data);
+        swal({
+            type: 'success',
+            title: 'Success',
+            text: 'user ajout avec succées',
+          }
+        ).then(
+          () => {
+            this.authService.isAuth = true;
+            this.authStatus = this.authService.isAuth;
+            //localStorage.setItem('auth','true')
+            this.storageService.write('user', this.user);
+            //alert(this.authStatus);
+            baseContext.router.navigate(['/appareils']);
+          }
+        );
+      },
+      (error) => {
+        console.log(error);
+        swal({
+          type: 'error',
+          title: 'error',
+          text: 'try again !!'
+        });
+      }
+    );
+  }
 }

@@ -1,5 +1,5 @@
 export class Appareil {
-  id: number;
+  _id: string;
   name: string;
   status: any;
 }

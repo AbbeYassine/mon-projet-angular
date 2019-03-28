@@ -1,20 +1,21 @@
-<div class="col-xs-12">
+<div class="col-xs-12 ">
+  <h3 class="text-success">{{user.email}}</h3>
   <h2>Mes appareils</h2>
 
-  <p>Mis à jour : {{lastUpdate  |  date : 'short' | lowercase }}</p>
+  <p>Mis a jour : {{lastUpdate | date : 'EEEE d MMMM y' | uppercase}}</p>
+
+  <button class="btn btn-primary" routerLink="/appareil/add">add</button>
 
   <ul class="list-group">
     <app-appareil *ngFor="let appareil of appareils"
-                  [appareilName]="appareil.name" [appareilStatus]="appareil.status"
-                  [id]="appareil.id"></app-appareil>
+                  [appareilName]="appareil.name"
+                  [AppareilStatus]="appareil.status"
+                  [id]="appareil._id"
+    >
+    </app-appareil>
   </ul>
+  <div class="col-xs-4">
+    <button class="btn btn-success" [disabled]="!isAuth" (click)="onSwitch()">{{btnmsg}}</button>
+  </div>
 
-  <button class="btn" [ngClass]="{'btn-success' : switch , 'btn-danger' : !switch}" [disabled]="!isAuth"
-          (click)="onSwitch()">
-    {{ switch ? 'Tout\n' +
-    '        allumer' : 'Tout etteindre' }}
-
-  </button>
-
-  <button class="btn" [routerLink]="['/appareil/add']">Ajouter un appareil</button>
 </div>

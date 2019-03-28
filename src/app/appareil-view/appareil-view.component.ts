@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Appareil} from '../appareil';
+import {User} from '../user';
 import {AppareilService} from '../services/appareil.service';
+import {StorageService} from '../services/storage.service';
 
 @Component({
   selector: 'app-appareil-view',
@@ -8,34 +10,31 @@ import {AppareilService} from '../services/appareil.service';
   styleUrls: ['./appareil-view.component.scss']
 })
 export class AppareilViewComponent implements OnInit {
+  //déclaration des variables//
 
-  switch: boolean = true;
-
-  lastUpdate: Date = new Date();
-
-  appareils: Appareil[] = [];
-
+  title = 'mon-projet-angular';
   isAuth: boolean = false;
+  lastUpdate: Date = new Date();
+  appareils: Appareil[] = [];
+  btnmsg: string = 'tout Allumer';
+  user: User;
 
+  //fin déclaration**********//
 
-  constructor(private appareilService: AppareilService) {
-    // this.appareils = this.appareilService.appareils;
+  constructor(private appareilservice: AppareilService,
+              private storageService: StorageService) {
+    setTimeout(() => {
+      this.isAuth = true;
+    }, 4000);
 
-    setTimeout(
-      () => {
-        this.isAuth = true;
-      },
-      4000
-    );
-  }
+    // this.appareils = this.appareilservice.appareils;
 
-  ngOnInit() {
-
-    this.appareilService.getAllAppareils()
+    this.appareilservice.getAllAppareils()
       .subscribe(
         (data: Appareil[]) => {
+          console.log(data);
           this.appareils = data;
-          this.appareilService.appareils = data;
+          this.appareilservice.appareils = data;
         },
         (error) => {
           console.log(error);
@@ -43,9 +42,16 @@ export class AppareilViewComponent implements OnInit {
       );
   }
 
-  onSwitch() {
-    this.switch = !this.switch;
-    this.appareilService.onSwitch(this.switch);
+  ngOnInit() {
+    this.user = new User();
+    this.user = this.storageService.read<User>('user');
+    console.log(this.user);
   }
 
+  onSwitch() {
+    this.appareilservice.onSwitch();
+    this.appareilservice.switch = !this.appareilservice.switch;
+    this.btnmsg = this.appareilservice.btnmsg;
+    console.log(this.isAuth);
+  }
 }
